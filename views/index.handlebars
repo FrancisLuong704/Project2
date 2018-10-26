@@ -1,6 +1,14 @@
 <div class="container">
-    <div class="doughnut-chart" style="width:600px; height:600px;">
-        
+    <div>
+        {{#each data}}
+        <h1>Type: {{type}}</h1>
+        <br>
+        <h4>Category: {{category}}</h4>
+        <p>Date: {{date}}</p>
+        <p>Amount: {{amount}}</p>
+        <p>Memo: {{memo}}</p>
+        <hr>
+        {{/each}}
     </div>
 </div>
 <script src="js/index.js"></script>
