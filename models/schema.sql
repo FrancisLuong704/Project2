@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS exampledb;
-CREATE DATABASE exampledb;
-
-DROP DATABASE IF EXISTS testdb;
-CREATE DATABASE testdb;
+-- if exists it deletes previous
+DROP DATABASE IF EXISTS budget_db;
+-- creates database
+CREATE DATABASE budget_db;
