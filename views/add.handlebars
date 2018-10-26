@@ -1,0 +1,46 @@
+<div class="container">
+    <form action="/api/transaction" method="POST">
+        <div class="form-group">
+            <div class="input-group input-group-md mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="input-group-type">Type</label>
+                </div>
+                <select class="custom-select" id="input-group-type">
+                    <option selected>Choose...</option>
+                    <option value="1">Withdrawal</option>
+                    <option value="2">Deposit</option>
+                </select>
+            </div>
+            <div class="input-group input-group-md mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="input-group-category">Category</label>
+                </div>
+                <select class="custom-select" id="input-group-category">
+                    <option selected>Choose...</option>
+                    <option value="1">Entertainment</option>
+                    <option value="2">Bills</option>
+                    <option value="2">Personal Care</option>
+                </select>
+            </div>
+            <div class="input-group input-group-md mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Date</label>
+                </div>
+                <input type="date" class="form-control text-right">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Amount</span>
+                </div>
+                <input type="text" class="form-control text-right" placeholder="$0.00">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Memo</span>
+                </div>
+                <input type="text" class="form-control text-left" placeholder="Text goes here...">
+            </div>
+            <button class="form-control btn btn-dark" type="submit">Add Transaction</button>
+        </div>
+    </form>
+</div>
