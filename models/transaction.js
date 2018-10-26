@@ -1,12 +1,29 @@
 module.exports = function(sequelize, DataTypes) {
-  var Example = sequelize.define("Example", {
+  var Transaction = sequelize.define("Transaction", {
     type: {
-      type:DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING,
+      // allowNull: false,
+      // validate: {
+      //   len: [1]
+      // }
     }, 
     category: {
-      type:DataTypes.TEXT
+      type: DataTypes.TEXT,
+      defaultValue: "Misc.",
+    },
+    date: {
+      type: DataTypes.DATEONLY,
+      // defaultValue: DataTypes.NOW,
+      // allowNull: false,
+    },
+    amount: {
+      type: DataTypes.INTEGER,
+      // allowNull: false,
+    },
+    memo: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   });
-  return Example;
+  return Transaction;
 };
