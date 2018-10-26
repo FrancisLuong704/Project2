@@ -4,7 +4,7 @@ module.exports = function (app) {
   // Get all transaction
   app.get("/api/transaction", function (req, res) {
     db.Transaction.findAll({}).then(function (dbTransactionAll) {
-      res.render("index", {trans:dbTransactionAll});
+      res.json(dbTransactionAll);
     });
   });
 
@@ -15,7 +15,7 @@ module.exports = function (app) {
         date: req.params.date
       }
     }).then(function(dbTransactionDate) {
-      res.render("index", {trans:dbTransactionDate});
+      res.json(dbTransactionDate);
     });
   });
 
