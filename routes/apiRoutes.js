@@ -42,8 +42,9 @@ module.exports = function (app) {
   });
 
   // Create a new transaction
-  app.post("/api/transaction", function (req, res) {
-    db.Transaction.create(req.body).then(function (dbTransactionNew) {
+  app.post("/api/transaction", function(req, res) {
+    console.log(req.body);
+    db.Transaction.create(req.body).then(function(dbTransactionNew) {
       res.json(dbTransactionNew);
     });
   });
