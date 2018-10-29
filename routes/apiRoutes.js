@@ -54,7 +54,7 @@ module.exports = function (app) {
   });
   ///====================
   //get all transactions by year
-  app.get("/api/transaction/:year", function (req, res) {
+  app.get("/api/transaction/year/:year", function (req, res) {
     var Op = Sequelize.Op;
     //if the user just registered the req.user.user_id wont be set
     //will be null in the table  
@@ -76,8 +76,7 @@ module.exports = function (app) {
   });
 
   //get all transactions by range of date(year month)
-    //get all transactions by range of date (year month day)
-    app.get("/api/transaction/:from/:to", function (req, res) {
+    app.get("/api/transaction/yearmonth/:from/:to", function (req, res) {
       var Op = Sequelize.Op;
       //if the user just registered the req.user.user_id wont be set
       //will be null in the table  
@@ -100,7 +99,7 @@ module.exports = function (app) {
     });
 
   //get all transactions by range of date (year month day)
-  app.get("/api/transaction/:from/:to", function (req, res) {
+  app.get("/api/transaction/yearmonthday/:from/:to", function (req, res) {
     var Op = Sequelize.Op;
     //if the user just registered the req.user.user_id wont be set
     //will be null in the table  
