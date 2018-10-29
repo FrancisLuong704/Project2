@@ -1,14 +1,178 @@
-<div class="container">
-    <div>
-        {{#each trans}}
-        <h1>Type: {{type}}</h1>
-        <br>
-        <h4>Category: {{category}}</h4>
-        <p>Date: {{date}}</p>
-        <p>Amount: {{amount}}</p>
-        <p>Memo: {{memo}}</p>
-        <hr>
-        {{/each}}
+<div class="container-fluid pl-0">
+    <div class="row no-gutters">
+        <div class="col col-2">
+            <!-- Hot Bar / Side Bar -->
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">Home</a>
+                <a href="/" class="list-group-item list-group-item-action active">View My Transfers</a>
+                <a href="/add" class="list-group-item list-group-item-action">Add Transfer</a>
+            </div>
+        </div>
+        <div class="col col-10">
+            <div class="container-fluid">
+                <!-- Main Content -->
+                <div class="row">
+                    <div class="container-fluid">
+                        <!-- List Buttons Row -->
+                        <div class="row">
+                            <div class="col col-12">
+                                <div class="button-toolbar mt-2">
+                                    <div class="btn-group">
+                                        <div class="dropdown mr-2">
+                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Filter
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <h5 class="dropdown-header">Filter Category By:</h5>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Entertainment</a>
+                                                <a class="dropdown-item" href="#">Bills</a>
+                                                <a class="dropdown-item" href="#">Personal Care</a>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add New
+                                            </button>
+                                            <form class="dropdown-menu bg-primary p-3 pb-0">
+                                                <div class="form-group">
+                                                    <div class="input-group input-group-md mb-3">
+                                                        <select class="custom-select type" id="input-group-type" id="type-selection">
+                                                            <option selected>Type...</option>
+                                                            <option value="Withdrawal">Withdrawal</option>
+                                                            <option value="Deposit">Deposit</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-group input-group-md mb-3">
+                                                        <select class="custom-select category" id="input-group-category"
+                                                            id="category-selection">
+                                                            <option selected>Category...</option>
+                                                            <option value="Entertainment">Entertainment</option>
+                                                            <option value="Bills">Bills</option>
+                                                            <option value="Personal Care">Personal Care</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-group input-group-md mb-3">
+                                                        <input type="date" class="form-control text-left" id="date-input">
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control text-left" placeholder="$0.00"
+                                                            id="amount-input">
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" class="form-control text-left" placeholder="Memo.."
+                                                            id="memo-input">
+                                                    </div>
+                                                    <button class="form-control btn btn-light" type="submit" id="submit-button">Add
+                                                        Transaction</button>
+                                                </div>
+                                            </form>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- List Display Row and Chart --}}
+                        <div class="row pt-2">
+                            {{!-- List --}}
+                            <div class="col col-12">
+                                <!-- List Group -->
+                                <ul class="list-group">
+                                    <!-- Example List Item -->
+                                    <div class="list-group-item">
+                                        <!-- List -->
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <span class="mb-1"><b>Example Withdrawal</b></span>
+                                            <small class="text-muted">12/24/2018</small>
+                                        </div>
+                                        <div class="d-flex w-100 justify-content-between ">
+                                            <p class="mb-0">Category: Entertainment</p>
+                                            <p class="mb-0">Amount: $27.34</p>
+                                            <i class="fas fa-angle-down" data-toggle="collapse" data-target="#extraContent1"></i>
+                                        </div>
+                                        <!-- Memo Content -->
+                                        <div class="collapse" id="extraContent1">
+                                            <hr class="my-2">
+                                            <p class="m-0 text-muted">Memo: This transfer was a special case
+                                                scenario. </p>
+                                        </div>
+                                    </div>
+                                    {{#each trans}}
+                                    <div class="list-group-item">
+                                        <!-- List -->
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <span class="mb-1"><b>{{type}}</b></span>
+                                            <small class="text-muted">{{date}}</small>
+                                        </div>
+                                        <div class="d-flex w-100 justify-content-between ">
+                                            <p class="mb-0">Category: {{category}}</p>
+                                            <p class="mb-0">Amount: {{amount}}</p>
+                                            <i class="fas fa-angle-down" data-toggle="collapse" data-target="#extraContent{{id}}"></i>
+                                        </div>
+                                        <!-- Memo Content -->
+                                        <div class="collapse" id="extraContent{{id}}">
+                                            <hr class="my-2">
+                                            <p class="m-0 text-muted">Memo: {{memo}}</p>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- CHART --}}
+                <div class="row mt-3">
+                    <div class="col col-8">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
+                                <div class="card bg-light">
+                                    <div class="card-body" id="chart-display">
+                                        <h5 class="card-title text-center">Spending By Category - Doughnut Chart</h5>
+                                        <canvas id="spendChartDoughnut" width="400" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="list-bar" role="tabpanel">
+                                <div class="card bg-light">
+                                    <div class="card-body" id="chart-bar">
+                                        <h5 class="card-title text-center">Spending By Category - Bar Chart</h5>
+                                        <canvas id="spendChartBar" width="400" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="list-pie" role="tabpanel">
+                                <div class="card bg-light">
+                                    <div class="card-body" id="chart-pie">
+                                        <h5 class="card-title text-center">Spending By Category - Pie Chart</h5>
+                                        <canvas id="spendChartPie" width="400" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- <div class="card">
+                            <div class="card-body" id="chart-display">
+                                <h5 class="card-title">Spending By Category</h5>
+                                <canvas id="myChart" width="400" height="400"></canvas>
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="col col-4">
+                        <div class="list-group" id="list-tab" role="tablist">
+                            <a class="list-group-item list-group-item-action active" id="list-dougnut-list" data-toggle="list"
+                                href="#list-doughnut" role="tab">Doughnut Chart</a>
+                            <a class="list-group-item list-group-item-action" id="list-bar-list" data-toggle="list"
+                                href="#list-bar" role="tab">Bar Graph</a>
+                            <a class="list-group-item list-group-item-action" id="list-pie-list" data-toggle="list"
+                                href="#list-pie" role="tab" aria-controls="messages">Pie Chart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="js/index.js"></script>
