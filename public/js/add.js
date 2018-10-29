@@ -1,6 +1,9 @@
+
+
 // On submit button click.
-$("#submit-button").on("click", function(event) {
+$("#submit-button").on("click", function (event) {
   event.preventDefault();
+  
   // Construct the object to be sent to the server using the form data.
   var data = {
     type: $("select.type")
@@ -16,7 +19,7 @@ $("#submit-button").on("click", function(event) {
 
   console.log(data);
   // Posts constructed data object to the server THEN reloads page.
-  $.post("/api/transaction", data).then(function() {
+  $.post("/api/transaction", data).then(function () {
     location.reload();
   });
 });
