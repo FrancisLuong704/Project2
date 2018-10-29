@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     }, 
     category: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      defaultValue: "Misc."
     },
     date: {
       type: DataTypes.DATEONLY,
