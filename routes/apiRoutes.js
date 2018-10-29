@@ -25,6 +25,7 @@ module.exports = function (app) {
     });
   });
 
+
   // Create a new transaction
   app.post("/api/transaction", function (req, res) {
 
@@ -52,7 +53,7 @@ module.exports = function (app) {
     });
   });
   ///====================
-  //get all transactions by date
+  //get all transactions by year
   app.get("/api/transaction/:year", function (req, res) {
     var Op = Sequelize.Op;
     //if the user just registered the req.user.user_id wont be set
@@ -67,6 +68,53 @@ module.exports = function (app) {
     db.Transaction.findAll({
       where: {
         date: { [Op.between]: [year + "-01-01", year + "-12-31"] },
+        UserId: userId
+      }
+    }).then(function (dbTransactionDate) {
+      res.json(dbTransactionDate);
+    });
+  });
+
+  //get all transactions by range of date(year month)
+    //get all transactions by range of date (year month day)
+    app.get("/api/transaction/:from/:to", function (req, res) {
+      var Op = Sequelize.Op;
+      //if the user just registered the req.user.user_id wont be set
+      //will be null in the table  
+      if (req.user.id) {
+        var userId = req.user.id
+      } else {
+        //else look for the id in the req.session.passport.user
+        var userId = req.session.passport.user.id
+      }
+      var from = req.params.from
+      var to = req.params.to
+      db.Transaction.findAll({
+        where: {
+          date: { [Op.between]: [from + "01", to + "31"] },
+          UserId: userId
+        }
+      }).then(function (dbTransactionDate) {
+        res.json(dbTransactionDate);
+      });
+    });
+
+  //get all transactions by range of date (year month day)
+  app.get("/api/transaction/:from/:to", function (req, res) {
+    var Op = Sequelize.Op;
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+    var from = req.params.from
+    var to = req.params.to
+    db.Transaction.findAll({
+      where: {
+        date: { [Op.between]: [from, to] },
         UserId: userId
       }
     }).then(function (dbTransactionDate) {
@@ -117,33 +165,6 @@ module.exports = function (app) {
       res.json(dbTransactionCat)
     });
   });
-
-  // //get all transactions by type
-  // app.get("/api/transaction/:type", function (req, res) {
-  //   db.Transaction.findAll({
-  //     where: {
-  //       date: req.params.type
-
-  //     },
-  //     include: [db.User]
-  //   }).then(function (dbTransactionType) {
-  //     res.json(dbTransactionType)
-  //   });
-  // });
-
-  // //get all transactions by category
-  // app.get("/api/transaction/:category", function (req, res) {
-  //   db.Transaction.findAll({
-  //     where: {
-  //       date: req.params.category
-
-  //     }, include: [db.User]
-  //   }).then(function (dbTransactionCat) {
-  //     res.json(dbTransactionCat)
-  //   });
-  // });
-
-
 
   // Delete an transaction by id
   app.delete("/api/transaction/:id", function (req, res) {
