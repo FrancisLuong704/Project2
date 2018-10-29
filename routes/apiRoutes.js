@@ -1,53 +1,95 @@
+
 var db = require("../models");
 
 module.exports = function (app) {
+
   // Get all transaction
   app.get("/api/transaction", function (req, res) {
-    db.Transaction.findAll({}).then(function (dbTransactionAll) {
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+
+    db.Transaction.findAll({
+      where: {
+        UserId: userId
+      }
+      // }, include: [db.User]
+    }
+    ).then(function (dbTransactionAll) {
       res.json(dbTransactionAll);
     });
   });
 
-  //get all transactions by date
-  app.get("/api/transaction/:date", function(req, res) {
-    db.Transaction.findAll({
-      where: {
-        date: req.params.date
-      }
-    }).then(function(dbTransactionDate) {
-      res.json(dbTransactionDate);
-    });
-  });
-
-  //get all transactions by type
-  app.get("/api/transaction/:type", function(req, res) {
-    db.Transaction.findAll({
-      where: {
-        date: req.params.type
-      }
-    }).then(function(dbTransactionType) {
-      res.json(dbTransactionType)
-    });
-  });
-
-  //get all transactions by category
-  app.get("/api/transaction/:category", function(req, res) {
-    db.Transaction.findAll({
-      where: {
-        date: req.params.category
-      }
-    }).then(function(dbTransactionCat) {
-      res.json(dbTransactionCat)
-    });
-  });
-
   // Create a new transaction
-  app.post("/api/transaction", function(req, res) {
-    console.log(req.body);
-    db.Transaction.create(req.body).then(function(dbTransactionNew) {
+  app.post("/api/transaction", function (req, res) {
+
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    };
+
+    let data = {
+      type: req.body.type,
+      category: req.body.category,
+      date: req.body.date,
+      amount: req.body.amount,
+      memo: req.body.memo,
+      UserId: userId
+    }
+    console.log(data);
+
+    db.Transaction.create(data).then(function (dbTransactionNew) {
       res.json(dbTransactionNew);
     });
   });
+
+  // //get all transactions by date
+  // app.get("/api/transaction/:date", function (req, res) {
+  //   db.Transaction.findAll({
+  //     where: {
+  //       date: req.params.date
+  //     },
+  //     include: [db.User]
+  //   }).then(function (dbTransactionDate) {
+  //     res.json(dbTransactionDate);
+  //   });
+  // });
+
+  // //get all transactions by type
+  // app.get("/api/transaction/:type", function (req, res) {
+  //   db.Transaction.findAll({
+  //     where: {
+  //       date: req.params.type
+
+  //     },
+  //     include: [db.User]
+  //   }).then(function (dbTransactionType) {
+  //     res.json(dbTransactionType)
+  //   });
+  // });
+
+  // //get all transactions by category
+  // app.get("/api/transaction/:category", function (req, res) {
+  //   db.Transaction.findAll({
+  //     where: {
+  //       date: req.params.category
+
+  //     }, include: [db.User]
+  //   }).then(function (dbTransactionCat) {
+  //     res.json(dbTransactionCat)
+  //   });
+  // });
+
+
 
   // Delete an transaction by id
   app.delete("/api/transaction/:id", function (req, res) {
