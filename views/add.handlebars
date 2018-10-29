@@ -1,54 +1,79 @@
-<div class="container">
-    <form action="/" method="GET">
-        <div class="form-group">
-            {{!-- Type --}}
-            <div class="input-group input-group-md mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="input-group-type">Type</label>
-                </div>
-                <select class="custom-select type" id="input-group-type" id="type-selection">
-                    <option selected>Choose...</option>
-                    <option value="Withdrawal">Withdrawal</option>
-                    <option value="Deposit">Deposit</option>
-                </select>
+<div class="container-fluid pl-0">
+    <div class="row no-gutters">
+        <div class="col col-2 bg-light">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">Home</a>
+                <a href="/" class="list-group-item list-group-item-action">View My Transfers</a>
+                <a href="/add" class="list-group-item list-group-item-action active">Add Transfer</a>
             </div>
-            {{!-- Category --}}
-            <div class="input-group input-group-md mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="input-group-category">Category</label>
-                </div>
-                <select class="custom-select category" id="input-group-category" id="category-selection">
-                    <option selected>Choose...</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Personal Care">Personal Care</option>
-                </select>
-            </div>
-            {{!-- Date --}}
-            <div class="input-group input-group-md mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Date</label>
-                </div>
-                <input type="date" class="form-control text-right" id="date-input">
-            </div>
-            {{!-- Amount --}}
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Amount</span>
-                </div>
-                <input type="text" class="form-control text-right" placeholder="$0.00" id="amount-input">
-            </div>
-            {{!-- Memo --}}
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Memo</span>
-                </div>
-                <input type="text" class="form-control text-left" placeholder="Text goes here..." id="memo-input">
-            </div>
-            <button class="form-control btn btn-dark" type="submit" id="submit-button">Add Transaction</button>
         </div>
-    </form>
+        <div class="col col-10">
+            <div class="container-fluid">
+                <!-- Main Content -->
+                <div class="row">
+                    <div class="container-fluid">
+                        <form action="/" method="GET">
+                            <div class="form-group">
+                                {{!-- Type --}}
+                                <div class="input-group input-group-md mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="input-group-type">Type</label>
+                                    </div>
+                                    <select class="custom-select type" id="input-group-type" id="type-selection">
+                                        <option selected>Choose...</option>
+                                        <option value="Withdrawal">Withdrawal</option>
+                                        <option value="Deposit">Deposit</option>
+                                    </select>
+                                </div>
+                                {{!-- Category --}}
+                                <div class="input-group input-group-md mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="input-group-category">Category</label>
+                                    </div>
+                                    <select class="custom-select category" id="input-group-category" id="category-selection">
+                                        <option selected>Choose...</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Bills">Bills</option>
+                                        <option value="Personal Care">Personal Care</option>
+                                    </select>
+                                </div>
+                                {{!-- Date --}}
+                                <div class="input-group input-group-md mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01">Date</label>
+                                    </div>
+                                    <input type="date" class="form-control text-right" id="date-input">
+                                </div>
+                                {{!-- Amount --}}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Amount</span>
+                                    </div>
+                                    <input type="text" class="form-control text-right" placeholder="$0.00" id="amount-input">
+                                </div>
+                                {{!-- Memo --}}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Memo</span>
+                                    </div>
+                                    <input type="text" class="form-control text-left" placeholder="Text goes here..."
+                                        id="memo-input">
+                                </div>
+                                <button class="form-control btn btn-dark" type="submit" id="submit-button">Add
+                                    Transaction</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {{!-- CHART --}}
+                {{!-- <div class="row mt-5">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div> --}}
+            </div>
+        </div>
+    </div>
 </div>
-
+<script src="js/index.js"></script>
+{{!-- ---------------------------------------------- --}}
 {{!-- Linking to the file that controlls ajax requests and event handlers --}}
 <script src="/js/add.js"></script>
