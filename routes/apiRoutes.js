@@ -73,6 +73,29 @@ module.exports = function (app) {
       res.json(dbTransactionDate);
     });
   });
+
+  //get all transactions by range of date
+  app.get("/api/transaction/:from/:to", function (req, res) {
+    var Op = Sequelize.Op;
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+    var from = req.params.from
+    var to = req.params.to
+    db.Transaction.findAll({
+      where: {
+        date: { [Op.between]: [from, to] },
+        UserId: userId
+      }
+    }).then(function (dbTransactionDate) {
+      res.json(dbTransactionDate);
+    });
+  });
   //======================
   //get all transactions by type
   app.get("/api/transaction/:type", function (req, res) {
