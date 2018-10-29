@@ -1,4 +1,4 @@
-
+var Sequelize = require("sequelize");
 var db = require("../models");
 
 module.exports = function (app) {
@@ -51,18 +51,72 @@ module.exports = function (app) {
       res.json(dbTransactionNew);
     });
   });
+  ///====================
+  //get all transactions by date
+  app.get("/api/transaction/:year", function (req, res) {
+    var Op = Sequelize.Op;
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+    var year = req.params.year
+    db.Transaction.findAll({
+      where: {
+        date: { [Op.between]: [year + "-01-01", year + "-12-31"] },
+        UserId: userId
+      }
+    }).then(function (dbTransactionDate) {
+      res.json(dbTransactionDate);
+    });
+  });
+  //======================
+  //get all transactions by type
+  app.get("/api/transaction/:type", function (req, res) {
+    //set req.body to a var
+    var userTrans = req.body;
+    //checks for user.id
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
 
-  // //get all transactions by date
-  // app.get("/api/transaction/:date", function (req, res) {
-  //   db.Transaction.findAll({
-  //     where: {
-  //       date: req.params.date
-  //     },
-  //     include: [db.User]
-  //   }).then(function (dbTransactionDate) {
-  //     res.json(dbTransactionDate);
-  //   });
-  // });
+    db.Transaction.findAll({
+      where: {
+        UserId: userId,
+        type: userTrans.type
+      }
+    }).then(function (dbTransactionType) {
+      res.json(dbTransactionType)
+    });
+  });
+
+  //get all transactions by category
+  app.get("/api/transaction/:category", function (req, res) {
+    //set req.body to a var
+    var userTrans = req.body;
+    //checks for user.id
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+
+    db.Transaction.findAll({
+      where: {
+        UserId: userId,
+        category: userTrans.category
+      }
+    }).then(function (dbTransactionCat) {
+      res.json(dbTransactionCat)
+    });
+  });
 
   // //get all transactions by type
   // app.get("/api/transaction/:type", function (req, res) {

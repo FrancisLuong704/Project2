@@ -14,17 +14,18 @@ module.exports = function(app) {
     if (req.user) {
       res.redirect("/view");
     }
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
+    res.sendFile(path.join(__dirname, "../public/login.html"));
   });
 
-  app.get("/login", function(req, res) {
+  app.get("/signup", function(req, res) {
     // If the user already has an account send them to the view page
     if (req.user) {
       res.redirect("/view");
     }
-    res.sendFile(path.join(__dirname, "../public/login.html"));
+    res.sendFile(path.join(__dirname, "../public/signup.html"));
   });
 
+  
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   // new "index" 
@@ -45,14 +46,6 @@ module.exports = function(app) {
     }).then(function (dbTransactionAll) {
       res.render("index", {trans:dbTransactionAll});
     });
-  });
-
-  // add page
-  app.get("/add", function (req, res) {
-    
-    db.Transaction.findAll({}).then(function (dbTransactionAll) {
-    res.render("add", {trans:dbTransactionAll});
-  });
   });
 
   // Render 404 page for any unmatched routes
