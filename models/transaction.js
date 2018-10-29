@@ -22,7 +22,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     memo: {
       type: DataTypes.STRING
-    }
+    },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   });
 
   // Associating, refer to sequelize last example
