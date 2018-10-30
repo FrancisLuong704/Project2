@@ -1,3 +1,36 @@
+//Button Collapse Filter Handler & Input Jquery
+// =============================
+$("#day-filter").on("click", function(event) {
+  event.preventDefault();
+  $("#month-filter-form").attr("class", "collapse");
+  $("#year-filter-form").attr("class", "collapse")
+});
+
+$("#month-filter").on("click", function(event) {
+  event.preventDefault();
+  $("#day-filter-form").attr("class", "collapse");
+  $("#year-filter-form").attr("class", "collapse")
+});
+
+$("#year-filter").on("click", function(event) {
+  event.preventDefault();
+  $("#day-filter-form").attr("class", "collapse");
+  $("#month-filter-form").attr("class", "collapse")
+});
+
+// Year pre-filled Dates
+$("#year-date-start").attr("value", "1950");
+$("#year-date-end").attr("value", moment().format("YYYY"));
+$("#year-date-end").attr("max", moment().format("YYYY"));
+
+// Day pre-filled Dates
+$("#month-date-end").attr("value", moment().format("YYYY-MM"));
+$("#month-date-end").attr("max", moment().format("YYYY-MM"));
+
+// Day pre-filled Dates
+$("#day-date-end").attr("value", moment().format("YYYY-MM-DD"));
+$("#day-date-end").attr("max", moment().format("YYYY-MM-DD"));
+
 // Event Handlers
 //==============================
 
@@ -26,8 +59,7 @@ $("#submit-button").on("click", function (event) {
 // Charts
 // ===========================
 
-
-
+// Get Data from Database to use in all charts.
 $.get("/api/transaction").then(function (result) {
   var entertainmentCount = 0;
   var billsCount = 0;
@@ -44,6 +76,7 @@ $.get("/api/transaction").then(function (result) {
       miscCount++;
     }
   }
+  
   // Doughnut Chart
   var ctx = $("#spendChartDoughnut");
   var spendChartDoughnut = new Chart(ctx, {
