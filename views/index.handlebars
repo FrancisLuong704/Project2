@@ -32,15 +32,16 @@
             <div class="container-fluid">
                 <!-- My Profile Header -->
                 <div class="row no-gutters mt-1 border-bottom border-primary">
-                    <h3 class="mb-0 pb-2">My Profile</h3>
+                    <h3 class="mb-0 pb-2">My Timeline</h3>
                 </div>
-                <div class="row no-gutters mb-4">
-                    <div class="card w-100 bg-light">
-                        <div class="card-body" id="profile-display">
-                            <h5 class="card-title text-center">Filler-Content</h5>
-                        </div>
+                {{!-- Timeline Chart --}}
+                <div class="card bg-light">
+                    <div class="card-body" id="main-timeline">
+                        <h5 class="card-title text-center">Spending Habits Over Time</h5>
+                        {{!-- Connection to charts.js --- Spending by Category Bar
+                        Chart --}}
+                        <canvas id="mainTimeChart" width="200" height="200"></canvas>
                     </div>
-
                 </div>
                 <!-- My Transfers Header -->
                 <div class="row no-gutters mt-1 border-bottom border-primary">
@@ -77,7 +78,7 @@
                                                     <div class="input-group input-group-md mb-3">
                                                         <select class="custom-select type" id="input-group-type" id="type-selection">
                                                             <option selected>Type...</option>
-                                                            <option value="Withdrawal">Withdrawal</option>
+                                                            <option value="Withdraw">Withdrawal</option>
                                                             <option value="Deposit">Deposit</option>
                                                         </select>
                                                     </div>
@@ -141,6 +142,11 @@
                                         <div class="d-flex w-100 justify-content-between">
                                             <span class="mb-1"><b>{{type}}</b></span>
                                             <small class="text-muted">{{date}}</small>
+                                            <div class="ctrl-btn justify-content-end">
+                                                <button class="delete close" data-id="{{id}}">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="d-flex w-100 justify-content-between ">
                                             <p class="mb-0">Category: {{category}}</p>
@@ -151,6 +157,52 @@
                                         <div class="collapse" id="extraContent{{id}}">
                                             <hr class="my-2">
                                             <p class="m-0 text-muted">Memo: {{memo}}</p>
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Update Transaction
+                                                </button>
+                                                <form class="dropdown-menu bg-primary p-3 pb-0">
+                                                    <div class="form-group">
+                                                        {{!-- this selects a type --}}
+                                                        <div class="input-group input-group-md mb-3">
+                                                            <select class="custom-select typeUp{{id}}">
+                                                                <option selected>Type...</option>
+                                                                <option value="Withdrawal">Withdrawal</option>
+                                                                <option value="Deposit">Deposit</option>
+                                                            </select>
+                                                        </div>
+                                                        {{!-- this selects a category --}}
+                                                        <div class="input-group input-group-md mb-3">
+                                                            <select class="custom-select categoryUp{{id}}">
+                                                                <option selected>Category...</option>
+                                                                <option value="Entertainment">Entertainment</option>
+                                                                <option value="Bills">Bills</option>
+                                                                <option value="Personal Care">Personal Care</option>
+                                                            </select>
+                                                        </div>
+                                                        {{!-- this is the date input --}}
+                                                        <div class="input-group input-group-md mb-3">
+                                                            <input type="date" class="form-control text-left date-input{{id}}">
+                                                        </div>
+                                                        {{!-- this is the amount input --}}
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control text-left amount-input{{id}}"
+                                                                placeholder="$0.00">
+                                                        </div>
+                                                        {{!-- this is the memo input --}}
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control text-left memo-input{{id}}"
+                                                                placeholder="Memo..">
+                                                        </div>
+                                                        {{!-- this button is submit/ also holds the id of transaction
+                                                        to grab later --}}
+                                                        <button class="form-control update btn btn-light" data-id="{{id}}"
+                                                            type="submit">Update
+                                                            Transaction</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                     {{/each}}
@@ -164,124 +216,192 @@
                     <h3 class="mb-0 pb-2">My Analytics</h3>
                 </div>
                 {{!-- Analytics Filter Bar --}}
-                <div class="row no-gutters pt-3">
-                    <h5>Plot Types: </h5>
-                    <button>Category</button>
-                    <button>Amount</button>
-                    <button>Budget</button>
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle btn-primary" type="button" id="filterByDateDropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Select Range
-                        </button>
-                        <form class="dropdown-menu bg-primary p-3 pb-0">
-                            <div class="form-group">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-light" id="day-filter" data-toggle="collapse"
-                                        data-target="#day-filter-form">Day</button>
-                                    <button type="button" class="btn btn-light" id="month-filter" data-toggle="collapse"
-                                        data-target="#month-filter-form">Month</button>
-                                    <button type="button" class="btn btn-light" id="year-filter" data-toggle="collapse"
-                                        data-target="#year-filter-form">Year</button>
-                                </div>
-                                {{!-- Day Filter Form --}}
-                                <div class="collapse show" id="day-filter-form">
-                                    <div class="dropdown-divider"></div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="date" class="form-control text-left" id="day-date-start">
-                                    </div>
-                                    <div>
-                                        <p class="text-light text-center font-weight-bold" for="day-date-end">TO</p>
-                                    </div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="date" class="form-control text-left" id="day-date-end">
-                                    </div>
-                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
-                                        Filters
-                                    </button>
-                                </div>
-                                {{!-- Month Filter Form --}}
-                                <div class="collapse" id="month-filter-form">
-                                    <div class="dropdown-divider"></div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="month" class="form-control text-left" id="month-date-start">
-                                    </div>
-                                    <div>
-                                        <p class="text-light text-center font-weight-bold" for="month-date-end">TO</p>
-                                    </div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="month" class="form-control text-left" id="month-date-end">
-                                    </div>
-                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
-                                        Filters
-                                    </button>
-                                </div>
-                                {{!-- Day Filter Form --}}
-                                <div class="collapse" id="year-filter-form">
-                                    <div class="dropdown-divider"></div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="number" class="form-control text-left" id="year-date-start" min="1950">
-                                    </div>
-                                    <div>
-                                        <p class="text-light text-center font-weight-bold" for="year-date-end">TO</p>
-                                    </div>
-                                    <div class="input-group input-group-md mb-3">
-                                        <input type="number" class="form-control text-left" id="year-date-end">
-                                    </div>
-                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
-                                        Filters
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                {{!-- Analytics Display --}}
-                <div class="row mt-3 pb-5">
-                    <div class="col col-8">
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
-                                <div class="card bg-light">
-                                    <div class="card-body" id="chart-display">
-                                        <h5 class="card-title text-center">Spending By Category - Doughnut Chart</h5>
-                                        <canvas id="spendChartDoughnut" width="400" height="200"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="list-bar" role="tabpanel">
-                                <div class="card bg-light">
-                                    <div class="card-body" id="chart-bar">
-                                        <h5 class="card-title text-center">Spending By Category - Bar Chart</h5>
-                                        <canvas id="spendChartBar" width="400" height="200"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="list-pie" role="tabpanel">
-                                <div class="card bg-light">
-                                    <div class="card-body" id="chart-pie">
-                                        <h5 class="card-title text-center">Spending By Category - Pie Chart</h5>
-                                        <canvas id="spendChartPie" width="400" height="200"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{!-- <div class="card">
-                            <div class="card-body" id="chart-display">
-                                <h5 class="card-title">Spending By Category</h5>
-                                <canvas id="myChart" width="400" height="400"></canvas>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <div class="col col-4">
+                <div class="row no-gutters pt-3 pb-5">
+                    <div class="col col-3">
                         <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-dougnut-list" data-toggle="list"
-                                href="#list-doughnut" role="tab">Doughnut Chart</a>
-                            <a class="list-group-item list-group-item-action" id="list-bar-list" data-toggle="list"
-                                href="#list-bar" role="tab">Bar Graph</a>
-                            <a class="list-group-item list-group-item-action" id="list-pie-list" data-toggle="list"
-                                href="#list-pie" role="tab" aria-controls="messages">Pie Chart</a>
-                            <a class="list-group-item list-group-item-action disabled" id="list-line-list" data-toggle="list"
-                                href="#list-line" role="tab" aria-controls="messages">Line Chart</a>
+                            <a class="list-group-item list-group-item-action active" id="category-link" data-toggle="list"
+                                href="#category-charts" role="tab" aria-controls="category">Category</a>
+                            <a class="list-group-item list-group-item-action" id="type-link" data-toggle="list" href="#type-charts"
+                                role="tab" aria-controls="type">Type</a>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle btn-primary" type="button" id="filterByDateDropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Range
+                            </button>
+                            <form class="dropdown-menu bg-primary p-3 pb-0">
+                                <div class="form-group">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-light" id="day-filter" data-toggle="collapse"
+                                            data-target="#day-filter-form">Day</button>
+                                        <button type="button" class="btn btn-light" id="month-filter" data-toggle="collapse"
+                                            data-target="#month-filter-form">Month</button>
+                                        <button type="button" class="btn btn-light" id="year-filter" data-toggle="collapse"
+                                            data-target="#year-filter-form">Year</button>
+                                    </div>
+                                    {{!-- Day Filter Form --}}
+                                    <div class="collapse show" id="day-filter-form">
+                                        <div class="dropdown-divider"></div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="date" class="form-control text-left" id="day-date-start">
+                                        </div>
+                                        <div>
+                                            <p class="text-light text-center font-weight-bold" for="day-date-end">TO</p>
+                                        </div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="date" class="form-control text-left" id="day-date-end">
+                                        </div>
+                                        <button class="form-control btn btn-light apply-filter-button" type="submit"
+                                            data-timeMetric="d">Apply
+                                            Filters
+                                        </button>
+                                    </div>
+                                    {{!-- Month Filter Form --}}
+                                    <div class="collapse" id="month-filter-form">
+                                        <div class="dropdown-divider"></div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="month" class="form-control text-left" id="month-date-start">
+                                        </div>
+                                        <div>
+                                            <p class="text-light text-center font-weight-bold" for="month-date-end">TO</p>
+                                        </div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="month" class="form-control text-left" id="month-date-end">
+                                        </div>
+                                        <button class="form-control btn btn-light apply-filter-button" type="submit"
+                                            data-timeMetric="m">Apply
+                                            Filters
+                                        </button>
+                                    </div>
+                                    {{!-- Day Filter Form --}}
+                                    <div class="collapse" id="year-filter-form">
+                                        <div class="dropdown-divider"></div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="number" class="form-control text-left" id="year-date-start"
+                                                min="1950">
+                                        </div>
+                                        <div>
+                                            <p class="text-light text-center font-weight-bold" for="year-date-end">TO</p>
+                                        </div>
+                                        <div class="input-group input-group-md mb-3">
+                                            <input type="number" class="form-control text-left" id="year-date-end">
+                                        </div>
+                                        <button class="form-control btn btn-light apply-filter-button" type="submit"
+                                            data-timeMetric="y">Apply
+                                            Filters
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col col-9">
+                        {{!-- Analytics Display --}}
+                        <div class="tab-content" id="nav-tabContent">
+                            {{!-- CATEGORY TAB CONTENT --}}
+                            <div class="tab-pane fade show active" id="category-charts" role="tabpanel" aria-labelledby="#category-link">
+                                <div class="row no-gutters">
+                                    <div class="col col-8 px-3">
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-display">
+                                                        <h5 class="card-title text-center">Spending By Category -
+                                                            Doughnut
+                                                            Chart</h5>
+                                                        {{!-- Connection to charts.js --- Spending by Category Bar
+                                                        Chart --}}
+                                                        <canvas id="spendChartDoughnut" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="list-bar" role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-bar">
+                                                        <h5 class="card-title text-center">Spending By Category - Bar
+                                                            Chart</h5>
+                                                        {{!-- Connection to charts.js --- Spending by Category Bar
+                                                        Chart --}}
+                                                        <canvas id="spendChartBar" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="list-pie" role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-pie">
+                                                        <h5 class="card-title text-center">Spending By Category - Pie
+                                                            Chart</h5>
+                                                        {{!-- Connection to charts.js --- Spending by Category Pie
+                                                        Chart --}}
+                                                        <canvas id="spendChartPie" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-4">
+                                        <div class="list-group" id="list-tab" role="tablist">
+                                            <a class="list-group-item list-group-item-action active" id="list-dougnut-list"
+                                                data-toggle="list" href="#list-doughnut" role="tab">Doughnut Chart</a>
+                                            <a class="list-group-item list-group-item-action" id="list-bar-list"
+                                                data-toggle="list" href="#list-bar" role="tab">Bar Graph</a>
+                                            <a class="list-group-item list-group-item-action" id="list-pie-list"
+                                                data-toggle="list" href="#list-pie" role="tab" aria-controls="messages">Pie
+                                                Chart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- TYPE CHARTS --}}
+                            <div class="tab-pane fade show" id="type-charts" role="tabpanel" aria-labelledby="#type-link">
+                                <div class="row no-gutters">
+                                    <div class="col col-8 px-3">
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="type-doughnut-chart-display"
+                                                role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-display">
+                                                        <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
+                                                        {{!-- Connection to charts.js --- Type Chart --}}
+                                                        <canvas id="typeChartDoughnut" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade show" id="type-bar-chart-display" role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-display">
+                                                        <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
+                                                        {{!-- Connection to charts.js --- Type Chart --}}
+                                                        <canvas id="typeChartBar" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade show" id="type-pie-chart-display" role="tabpanel">
+                                                <div class="card bg-light">
+                                                    <div class="card-body" id="chart-display">
+                                                        <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
+                                                        {{!-- Connection to charts.js --- Type Chart --}}
+                                                        <canvas id="typeChartPie" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-4">
+                                        <div class="list-group" id="list-tab" role="tablist">
+                                            <a class="list-group-item list-group-item-action active" id="type-doughnut-chart"
+                                                data-toggle="list" href="#type-doughnut-chart-display" role="tab">Doughnut
+                                                Chart</a>
+                                            <a class="list-group-item list-group-item-action" id="type-bar-chart"
+                                                data-toggle="list" href="#type-bar-chart-display" role="tab">Bar
+                                                Chart</a>
+                                            <a class="list-group-item list-group-item-action" id="type-pie-chart"
+                                                data-toggle="list" href="#type-pie-chart-display" role="tab">Pie
+                                                Chart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
