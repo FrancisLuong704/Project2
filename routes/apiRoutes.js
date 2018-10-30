@@ -54,7 +54,7 @@ module.exports = function (app) {
   });
   ///====================
   //get all transactions by year
-  app.get("/api/transaction/year/:year", function (req, res) {
+   app.get("/api/transaction/year/:from/:to", function (req, res) {
     var Op = Sequelize.Op;
     //if the user just registered the req.user.user_id wont be set
     //will be null in the table  
@@ -64,10 +64,11 @@ module.exports = function (app) {
       //else look for the id in the req.session.passport.user
       var userId = req.session.passport.user.id
     }
-    var year = req.params.year
+    var from = req.params.from;
+    var to = req.params.to;
     db.Transaction.findAll({
       where: {
-        date: { [Op.between]: [year + "-01-01", year + "-12-31"] },
+        date: { [Op.between]: [from + "-01-01", to + "-12-31"] },
         UserId: userId
       }
     }).then(function (dbTransactionDate) {
@@ -165,24 +166,46 @@ module.exports = function (app) {
     });
   });
 
-  // Delete an transaction by id
-  app.delete("/api/transaction/:id", function (req, res) {
-    db.Transaction.destroy({ where: { id: req.params.id } }).then(function (dbTransactionDel) {
-      res.json(dbTransactionDel);
+ //update a transaction by id
+ app.put("/api/transaction/:id", function (req, res, next) {
+  if (req.user.id) {
+    var userId = req.user.id
+  } else {
+    //else look for the id in the req.session.passport.user
+    var userId = req.session.passport.user.id
+  }
+  //set the new info into a var
+  var updatedTrans = {
+    type: req.body.type,
+    category: req.body.category,
+    date: req.body.date,
+    amount: req.body.amount,
+    memo: req.body.memo,
+  };
+  //this is doing the transfer of info
+  db.Transaction.update(
+    {
+      type: updatedTrans.type,
+      category: updatedTrans.category,
+      date: updatedTrans.date,
+      amount: updatedTrans.amount,
+      memo: updatedTrans.memo
+    },
+    {   //at this index/transaction id and UserID
+      returning: true, 
+      where: { 
+        id: req.params.id,
+        userId: userId
+       }
+    }).then(function (dbTransactionUpdate) {
+      res.json(dbTransactionUpdate)
     });
-  });
+});
 
-
-  //update a transaction by id
-  app.put("/api/transaction/:id", function (req, res) {
-    db.Transaction.update(
-      req.body,
-      {
-        where: {
-          id: req.body.id
-        }
-      }).then(function (dbTransactionUpdate) {
-        res.json(dbTransactionUpdate)
-      });
+ // Delete an transaction by id
+ app.delete("/api/transaction/:id", function (req, res) {
+  db.Transaction.destroy({ where: { id: req.params.id } }).then(function (dbTransactionDel) {
+    res.json(dbTransactionDel);
   });
-};
+ }
+)};
