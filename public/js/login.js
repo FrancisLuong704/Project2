@@ -15,7 +15,8 @@ $(document).ready(function() {
     if (!userData.email || !userData.password) {
       return;
     }
-
+    sessionStorage.setItem('User', userData.email)
+    
     // If we have an email and password we run the loginUser function and clear the form
     loginUser(userData.email, userData.password);
     emailInput.val("");
