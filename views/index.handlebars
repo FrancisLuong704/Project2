@@ -113,7 +113,6 @@
                                                         Transaction</button>
                                                 </div>
                                             </form>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -172,15 +171,88 @@
                 <div class="row no-gutters mt-1 border-bottom border-primary">
                     <h3 class="mb-0 pb-2">My Analytics</h3>
                 </div>
+                {{!-- Analytics Filter Bar --}}
+                <div class="row no-gutters pt-3">
+                    <h5>Plot Types: </h5>
+                    <button>Category</button>
+                    <button>Amount</button>
+                    <button>Budget</button>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle btn-primary" type="button" id="filterByDateDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select Range
+                        </button>
+                        <form class="dropdown-menu bg-primary p-3 pb-0">
+                            <div class="form-group">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-light" id="day-filter" data-toggle="collapse"
+                                        data-target="#day-filter-form">Day</button>
+                                    <button type="button" class="btn btn-light" id="month-filter" data-toggle="collapse"
+                                        data-target="#month-filter-form">Month</button>
+                                    <button type="button" class="btn btn-light" id="year-filter" data-toggle="collapse"
+                                        data-target="#year-filter-form">Year</button>
+                                </div>
+                                {{!-- Day Filter Form --}}
+                                <div class="collapse show" id="day-filter-form">
+                                    <div class="dropdown-divider"></div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="date" class="form-control text-left" id="day-date-start">
+                                    </div>
+                                    <div>
+                                        <p class="text-light text-center font-weight-bold" for="day-date-end">TO</p>
+                                    </div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="date" class="form-control text-left" id="day-date-end">
+                                    </div>
+                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
+                                        Filters
+                                    </button>
+                                </div>
+                                {{!-- Month Filter Form --}}
+                                <div class="collapse" id="month-filter-form">
+                                    <div class="dropdown-divider"></div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="month" class="form-control text-left" id="month-date-start">
+                                    </div>
+                                    <div>
+                                        <p class="text-light text-center font-weight-bold" for="month-date-end">TO</p>
+                                    </div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="month" class="form-control text-left" id="month-date-end">
+                                    </div>
+                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
+                                        Filters
+                                    </button>
+                                </div>
+                                {{!-- Day Filter Form --}}
+                                <div class="collapse" id="year-filter-form">
+                                    <div class="dropdown-divider"></div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="number" class="form-control text-left" id="year-date-start" min="1950">
+                                    </div>
+                                    <div>
+                                        <p class="text-light text-center font-weight-bold" for="year-date-end">TO</p>
+                                    </div>
+                                    <div class="input-group input-group-md mb-3">
+                                        <input type="number" class="form-control text-left" id="year-date-end">
+                                    </div>
+                                    <button class="form-control btn btn-light" type="submit" id="apply-filter-button">Apply
+                                        Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 {{!-- Analytics Display --}}
-                <div class="row mt-3">
+                <div class="row mt-3 pb-5">
                     <div class="col col-8">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
                                 <div class="card bg-light">
                                     <div class="card-body" id="chart-display">
                                         <h5 class="card-title text-center">Spending By Category - Doughnut Chart</h5>
-                                        <canvas id="spendChartDoughnut" width="400" height="400"></canvas>
+                                        <canvas id="spendChartDoughnut" width="400" height="200"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +260,7 @@
                                 <div class="card bg-light">
                                     <div class="card-body" id="chart-bar">
                                         <h5 class="card-title text-center">Spending By Category - Bar Chart</h5>
-                                        <canvas id="spendChartBar" width="400" height="400"></canvas>
+                                        <canvas id="spendChartBar" width="400" height="200"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +268,7 @@
                                 <div class="card bg-light">
                                     <div class="card-body" id="chart-pie">
                                         <h5 class="card-title text-center">Spending By Category - Pie Chart</h5>
-                                        <canvas id="spendChartPie" width="400" height="400"></canvas>
+                                        <canvas id="spendChartPie" width="400" height="200"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -216,6 +288,8 @@
                                 href="#list-bar" role="tab">Bar Graph</a>
                             <a class="list-group-item list-group-item-action" id="list-pie-list" data-toggle="list"
                                 href="#list-pie" role="tab" aria-controls="messages">Pie Chart</a>
+                            <a class="list-group-item list-group-item-action disabled" id="list-line-list" data-toggle="list"
+                                href="#list-line" role="tab" aria-controls="messages">Line Chart</a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,3 @@
+input[type="month"]::-webkit-calendar-picker-indicator{
+    display: none;
+}
