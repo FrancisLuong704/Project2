@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     }, 
     category: {
       type: DataTypes.TEXT,
-      defaultValue: "Misc."
+      defaultValue: "Misc",
+      allowNull: false
     },
     date: {
       type: DataTypes.DATEONLY,
@@ -21,7 +22,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     memo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
