@@ -606,21 +606,21 @@ $.get("/api/transaction/").then(function (result) {
   }
 
   // Advice
-  if (lrentertain[1] > 0) {
-    $('.msg').append('<li> The spending on "Entertainment" is increasing. Remember: Saving is a good habit.</li>')
-  } else {
-    $('.msg').append('<li> The spending on "Entertainment" is decreasing. Life needs balance</li>')
-  }
-  if (lrbill[1] > 0) {
-    $('.msg').append('<li> The spending on "Bills" is increasing. Sorry for being ripped of by Duke Energy.</li>')
-  } else {
-    $('.msg').append('<li> The spending on "Bills" is decreasing. Good Job!</li>')
-  }
-  if (lrpcare[1] > 0) {
-    $('.msg').append('<li> The spending on "Personal Care" is increasing. Money can not buy health but health does cost money!</li>')
-  } else {
-    $('.msg').append('<li> The spending on "Personal Care" is decreasing. Good Job for taking good care of your body!</li>')
-  }
+  // if (lrentertain[1]>0){
+  //   $('.msg').append('<li> The spending on "Entertainment" is increasing. Remember: Saving is a good habit.</li>')
+  // } else {
+  //   $('.msg').append('<li> The spending on "Entertainment" is decreasing. Life needs balance</li>')
+  // }
+  // if (lrbill[1]>0){
+  //   $('.msg').append('<li> The spending on "Bills" is increasing. Sorry for being ripped of by Duke Energy.</li>')
+  // } else {
+  //   $('.msg').append('<li> The spending on "Bills" is decreasing. Good Job!</li>')
+  // }
+  // if (lrpcare[1]>0){
+  //   $('.msg').append('<li> The spending on "Personal Care" is increasing. Money can not buy health but health does cost money!</li>')
+  // } else {
+  //   $('.msg').append('<li> The spending on "Personal Care" is decreasing. Good Job for taking good care of your body!</li>')
+  // }
   console.log("linearRegEntertain: " + linearRegEntertain)
 
   // plot this 
