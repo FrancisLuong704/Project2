@@ -103,14 +103,17 @@ $(".apply-filter-button").on("click", function (event) {
   if ($(this).attr("data-timeMetric") === "d") {
     var startDay = $("#day-date-start").val().replace(/-/g, "");
     var endDay = $("#day-date-end").val().replace(/-/g, "");
+    sessionStorage.removeItem("filterStorage");
     sessionStorage.setItem("filterStorage", "yearmonthday/" + startDay + "/" + endDay)
   } else if ($(this).attr("data-timeMetric") === "m") {
     var startMonth = $("#month-date-start").val().replace(/-/g, "");
     var endMonth = $("#month-date-end").val().replace(/-/g, "");
+    sessionStorage.removeItem("filterStorage");
     sessionStorage.setItem("filterStorage", "yearmonth/" + startMonth + "/" + endMonth)
   } else if ($(this).attr("data-timeMetric") === "y") {
     var startYear = $("#year-date-start").val();
     var endYear = $("#year-date-end").val();
+    sessionStorage.removeItem("filterStorage");
     sessionStorage.setItem("filterStorage", "year/" + startYear + "/" + endYear)
   }
   location.reload();
@@ -122,7 +125,9 @@ $('#log-user').css("color", "white");
 
 // Charts
 // ============================================================
-
+if (sessionStorage.getItem("filterStorage") === undefined) {
+  sessionStorage.setItem("filterStorage", "year/" + moment().subtract(1, "year").format("YYYY") + "/" + moment().format("YYYY"));
+};
 // Get Data from Database to use in all charts. Uses filter variable above.
 $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(function (result) {
   var entertainmentCount = 0;
@@ -136,18 +141,25 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   var depositCount = 0;
   for (i = 0; i < result.length; i++) {
     if (result[i].category === "Entertainment") {
+      console.log("Added one to entertainment")
       entertainmentCount++;
     } else if (result[i].category === "Bills") {
+      console.log("Added one to bills")
       billsCount++;
     } else if (result[i].category === "Personal Care") {
+      console.log("Added one to personal")
       personalCareCount++;
     } else if (result[i].category === "Food and Groceries") {
+      console.log("Added one to food")
       foodAndGroceriesCount++;
     } else if (result[i].category === "Gasoline") {
+      console.log("Added one to gasoline")
       gasolineCount++;
     } else if (result[i].category === "Vacation") {
+      console.log("Added one to vaca")
       vacationCount++;
     } else {
+      console.log("Added one to misc")
       miscCount++;
     }
     if (result[i].type === "Withdraw") {
@@ -479,7 +491,7 @@ $.get("/api/transaction/").then(function (result) {
   })
 
   // ====================================================================
-  //Analytical LINE CHART
+  // Analytical LINE CHART
   // ====================================================================
   // generate an array [0,1,2,3 ... 29]
   var twentyNineArray = [];
