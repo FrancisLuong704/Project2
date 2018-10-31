@@ -331,7 +331,10 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
     options: {
     }
   });
+})
 
+
+$.get("/api/transaction/").then(function (result) {
   //TIME LINE CHART
   // ====================================================================
   // generate array of months
