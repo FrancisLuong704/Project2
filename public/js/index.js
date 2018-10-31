@@ -36,7 +36,7 @@ $("#day-date-end").attr("max", moment().format("YYYY-MM-DD"));
 // ADD TRANSFER HANDLER
 $("#submit-button").on("click", function (event) {
   event.preventDefault();
-  // Construct the object to be sent to the server using the form data.
+  // varruct the object to be sent to the server using the form data.
   var data = {
     type: $("select.type")
       .children("option:selected")
@@ -50,7 +50,7 @@ $("#submit-button").on("click", function (event) {
   };
 
   console.log(data);
-  // Posts constructed data object to the server THEN reloads page.
+  // Posts varructed data object to the server THEN reloads page.
   $.post("/api/transaction", data).then(function () {
     location.reload();
   });
@@ -352,7 +352,7 @@ $.get("/api/transaction/" + filter).then(function (result) {
       }
     }
   }
-  //fuck up check
+  //check
   for (var i = 0; i < entertain.length; i++) {
     console.log("date: " + moment(entertain[i].date).format('MMM Do'));
     console.log("amount: " + entertain[i].amount);
@@ -367,8 +367,7 @@ $.get("/api/transaction/" + filter).then(function (result) {
       }
     }
   }
-  //fuck up check
-  console.log("Y: " + entertainmentSum);
+
   //====
   // //Bills
   var bill = [];
@@ -392,7 +391,7 @@ $.get("/api/transaction/" + filter).then(function (result) {
       }
     }
   }
-  console.log("Y: " + billSum);
+
   //====
   // Personalcare
   var pcare = [];
@@ -416,9 +415,9 @@ $.get("/api/transaction/" + filter).then(function (result) {
       }
     }
   }
-  console.log("Y: " + pcareSum);
+
   //====
-  // plot this shit
+  // plot this 
   var ctx = $("#mainTimeChart");
   var spendChartLine = new Chart(ctx, {
 
@@ -427,20 +426,20 @@ $.get("/api/transaction/" + filter).then(function (result) {
       labels: xaxis,
       datasets: [{
         label: 'Entertainment',
-        backgroundColor: 'yellow',
-        borderColor: 'yellow',
+        backgroundColor: 'rgba(255,255,0,0.5)',
+        borderColor: 'rgba(255,255,0,0.5)',
         fill: false,
         data: entertainmentSum
       }, {
         label: 'Bills',
-        backgroundColor: 'blue',
-        borderColor: 'blue',
+        backgroundColor: 'rgba(0,0,255,0.5)',
+        borderColor: 'rgba(0,0,255,0.5)',
         fill: false,
         data: billSum
       }, {
         label: 'Personal Care',
-        backgroundColor: 'green',
-        borderColor: 'green',
+        backgroundColor: 'rgba(0,255,0,0.5)',
+        borderColor: 'rgba(0,255,0,0.5)',
         fill: false,
         data: pcareSum
       }
@@ -467,5 +466,187 @@ $.get("/api/transaction/" + filter).then(function (result) {
       }
     }
   })
+
   // ====================================================================
+  //Analytical LINE CHART
+  // ====================================================================
+  // generate an array [0,1,2,3 ... 29]
+  var twentyNineArray = [];
+  for (var i = 0; i < 30; i++) {
+    twentyNineArray[i] = i;
+  }
+
+  //linear Regression
+  function linearRegress(array) {
+    //Personal Care
+    // generate 2 arrays: y and x
+    var ArrayX = [];
+    var ArrayY = [];
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] !== "null") {
+        ArrayY.push(array[i]);
+        ArrayX.push(i);
+      }
+    }
+    console.log("ArrayX: " + ArrayX);
+    console.log("ArrayY: " + ArrayY);
+
+    // calculate the average x and average y
+    var sumX = ArrayX.reduce((a, b) => a + b, 0)
+    var AvgX = sumX / ArrayX.length;
+    var sumY = ArrayY.reduce((a, b) => a + b, 0)
+    var AvgY = sumY / ArrayY.length;
+    console.log("AvgX: " + AvgX);
+    console.log("AvgY: " + AvgY);
+
+    // calculate r
+    // difference from average x to x terms (x bar - xi)
+    var diffX = ArrayX.map(x => x - AvgX);
+    console.log("map-x: " + diffX)
+    // difference from average y to y terms (y bar - yi)
+    var diffY = ArrayY.map(y => y - AvgY);
+    console.log("map-y: " + diffY)
+    // standard deviation of x and y: SDx = sqrt(sumation((xi-xbar)^2)/n
+    var SqrDiffX = diffX.map(x => x * x)
+    var SqrDiffY = diffY.map(y => y * y)
+    console.log("SqrDiffX: " + SqrDiffX)
+    console.log("SqrDiffY: " + SqrDiffY)
+    var sqdx = SqrDiffX.reduce((a, b) => a + b, 0)
+    var sqdy = SqrDiffY.reduce((a, b) => a + b, 0)
+    var sqdxy = sqdx * sqdy
+    var rDen = Math.sqrt(sqdxy)
+    var rNumArray = [];
+    for (var i = 0; i < ArrayX.length; i++) {
+      var sumDxTimesDy = diffX[i] * diffY[i]
+      rNumArray.push(sumDxTimesDy)
+    }
+    console.log("rNumArray : " + rNumArray)
+    var rNum = rNumArray.reduce((a, b) => a + b, 0)
+    console.log("rNum: " + rNum)
+    var r = rNum / rDen
+    var stdDX = Math.sqrt(sqdx) / ArrayX.length;
+    var stdDY = Math.sqrt(sqdy) / ArrayY.length;
+    console.log("r :" + r)
+    console.log("stdDx: " + stdDX)
+    console.log("stdDy:" + stdDY)
+    var slope = r * stdDY / stdDX;
+    var sxx = slope * AvgX
+    var intercept = AvgY - sxx;
+    // return formula and variables
+    console.log("y=" + intercept + "+" + slope + "x");
+    return [slope, intercept];
+  }
+
+  // LR for Personal Care
+  var lrpcare = linearRegress(pcareSum);
+  var linearRegPcare = [];
+  for (var i = 0; i < twentyNineArray.length; i++) {
+    var y = lrpcare[1] + lrpcare[0] * twentyNineArray[i]
+    linearRegPcare.push(y)
+  }
+  console.log("linearRegPcare: " + linearRegPcare)
+
+  // LR for bills
+  var lrbill = linearRegress(billSum);
+  var linearRegBill = [];
+  for (var i = 0; i < twentyNineArray.length; i++) {
+    var y = lrbill[1] + lrbill[0] * twentyNineArray[i]
+    linearRegBill.push(y)
+  }
+  console.log("linearRegBill: " + linearRegBill)
+
+  // LR for Entertainment
+  var lrentertain = linearRegress(entertainmentSum);
+  var linearRegEntertain = [];
+  for (var i = 0; i < twentyNineArray.length; i++) {
+    var y = lrentertain[1] + lrentertain[0] * twentyNineArray[i]
+    linearRegEntertain.push(y)
+  }
+
+  // Advice
+  if (lrentertain[1]>0){
+    $('.msg').append('<li> The spending on "Entertainment" is increasing. Remember: Saving is a good habit.</li>')
+  } else {
+    $('.msg').append('<li> The spending on "Entertainment" is decreasing. Life needs balance</li>')
+  }
+  if (lrbill[1]>0){
+    $('.msg').append('<li> The spending on "Bills" is increasing. Sorry for being ripped of by Duke Energy.</li>')
+  } else {
+    $('.msg').append('<li> The spending on "Bills" is decreasing. Good Job!</li>')
+  }
+  if (lrpcare[1]>0){
+    $('.msg').append('<li> The spending on "Personal Care" is increasing. Money can not buy health but health does cost money!</li>')
+  } else {
+    $('.msg').append('<li> The spending on "Personal Care" is decreasing. Good Job for taking good care of your body!</li>')
+  }
+  console.log("linearRegEntertain: " + linearRegEntertain)
+
+  // plot this 
+  var ctx = $("#analTimeChart");
+  var spendChartLine = new Chart(ctx, {
+
+    type: 'line',
+    data: {
+      labels: xaxis,
+      datasets: [{
+        label: 'Trend of Entertainment',
+        backgroundColor: 'rgba(255,255,0,1)',
+        borderColor: 'rgba(255,255,0,1)',
+        fill: false,
+        data: linearRegEntertain
+      }, {
+        label: 'Trend of Bills',
+        backgroundColor: 'rgba(0,0,255,1)',
+        borderColor: 'rgba(0,0,255,1)',
+        fill: false,
+        data: linearRegBill
+      }, {
+        label: 'Trend of Personal Care',
+        backgroundColor: 'rgba(0,255,0,1)',
+        borderColor: 'rgba(0,255,0,1)',
+        fill: false,
+        data: linearRegPcare
+      }, {
+        label: 'Entertainment',
+        backgroundColor: 'rgba(255,255,0,0.1)',
+        borderColor: 'rgba(255,255,0,0.1)',
+        fill: false,
+        data: entertainmentSum
+      }, {
+        label: 'Bills',
+        backgroundColor: 'rgba(0,0,255,0.1)',
+        borderColor: 'rgba(0,0,255,0.1)',
+        fill: false,
+        data: billSum
+      }, {
+        label: 'Personal Care',
+        backgroundColor: 'rgba(0,255,0,0.1)',
+        borderColor: 'rgba(0,255,0,0.1)',
+        fill: false,
+        data: pcareSum
+      }
+      ]
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Past 30 days Linear Regression'
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            suggestedMin: 0,
+            suggestedMax: 200
+          },
+          showLines: true
+        }]
+      }
+    }
+  })
 });
+
