@@ -129,6 +129,9 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   var billsCount = 0;
   var personalCareCount = 0;
   var miscCount = 0;
+  var foodAndGroceriesCount = 0;
+  var gasolineCount = 0;
+  var vacationCount = 0;
   var withdrawCount = 0;
   var depositCount = 0;
   for (i = 0; i < result.length; i++) {
@@ -138,6 +141,12 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
       billsCount++;
     } else if (result[i].category === "Personal Care") {
       personalCareCount++;
+    } else if (result[i].category === "Food and Groceries") {
+      foodAndGroceriesCount++;
+    } else if (result[i].category === "Gasoline") {
+      gasolineCount++;
+    } else if (result[i].category === "Vacation") {
+      vacationCount++;
     } else {
       miscCount++;
     }
