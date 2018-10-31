@@ -230,9 +230,9 @@
                 <div class="col col-2">
                     <div class="list-group" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action active" id="category-link" data-toggle="list"
-                            href="#category-charts" role="tab" aria-controls="category">Category</a>
+                            href="#category-charts" role="tab" aria-controls="category">Trans. per Category</a>
                         <a class="list-group-item list-group-item-action" id="type-link" data-toggle="list" href="#type-charts"
-                            role="tab" aria-controls="type">Type</a>
+                            role="tab" aria-controls="type">Category Total</a>
                     </div>
                     <div class="dropdown pt-2">
                         <button class="btn dropdown-toggle btn-primary btn-block" type="button" id="filterByDateDropdown"
@@ -315,34 +315,33 @@
                                         <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
                                             <div class="card bg-light">
                                                 <div class="card-body" id="chart-display">
-                                                    <h5 class="card-title text-center">Spending By Category -
+                                                    <h5 class="card-title text-center">Transaction per Category -
                                                         Doughnut
                                                         Chart</h5>
-                                                    {{!-- Connection to charts.js --- Spending by Category Bar
+                                                    {{!-- Connection to charts.js --- Transaction per Category Bar
                                                     Chart --}}
-                                                    <canvas id="spendChartDoughnut" width="400" height="200"></canvas>
+                                                    <canvas id="countPerCategoryDoughnut" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="list-bar" role="tabpanel">
                                             <div class="card bg-light">
                                                 <div class="card-body" id="chart-bar">
-                                                    <h5 class="card-title text-center">Spending By Category - Bar
+                                                    <h5 class="card-title text-center">Transaction per Category - Bar
                                                         Chart</h5>
-                                                    {{!-- Connection to charts.js --- Spending by Category Bar
+                                                    {{!-- Connection to charts.js --- Transaction per Category Bar
                                                     Chart --}}
-                                                    <canvas id="spendChartBar" width="400" height="200"></canvas>
+                                                    <canvas id="countPerCategoryBar" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="list-pie" role="tabpanel">
                                             <div class="card bg-light">
                                                 <div class="card-body" id="chart-pie">
-                                                    <h5 class="card-title text-center">Spending By Category - Pie
+                                                    <h5 class="card-title text-center">Transactions per Category - Pie
                                                         Chart</h5>
-                                                    {{!-- Connection to charts.js --- Spending by Category Pie
-                                                    Chart --}}
-                                                    <canvas id="spendChartPie" width="400" height="200"></canvas>
+                                                    {{!-- Connection to charts.js --- Transaction per Category --}}
+                                                    <canvas id="countPerCategoryPie" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,7 +370,7 @@
                                                 <div class="card-body" id="chart-display">
                                                     <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
                                                     {{!-- Connection to charts.js --- Type Chart --}}
-                                                    <canvas id="typeChartDoughnut" width="400" height="200"></canvas>
+                                                    <canvas id="categoryTotalDoughnut" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -380,7 +379,7 @@
                                                 <div class="card-body" id="chart-display">
                                                     <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
                                                     {{!-- Connection to charts.js --- Type Chart --}}
-                                                    <canvas id="typeChartBar" width="400" height="200"></canvas>
+                                                    <canvas id="categoryTotalBar" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -389,7 +388,7 @@
                                                 <div class="card-body" id="chart-display">
                                                     <h5 class="card-title text-center"> Withdraws vs Deposits</h5>
                                                     {{!-- Connection to charts.js --- Type Chart --}}
-                                                    <canvas id="typeChartPie" width="400" height="200"></canvas>
+                                                    <canvas id="categoryTotalPie" width="400" height="200"></canvas>
                                                 </div>
                                             </div>
                                         </div>
