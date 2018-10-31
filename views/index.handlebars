@@ -1,51 +1,54 @@
 <div class="container-fluid pl-0">
     <div class="row no-gutters">
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-            <span class="navbar-brand mb-0 h1">Welcome user, some@usernmae!</span>
+            <span class="navbar-brand mb-0 h1">BudgetMax</span>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Profile <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">History</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Transfers</a>
+                        <a class="nav-link" href="#my-transfer">Transfers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Analytics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#my-analytic">Analytics</a>
                     </li>
                 </ul>
+                <span id="log-user" style="margin-right:20px;">User Email</span>
                 <form class="form-inline">
-                    <a href="/logout" class="btn btn-light">Logout</a>
+                    <a href="/logout" class="logout-btn btn btn-light">Logout</a>
                 </form>
+
             </div>
         </nav>
     </div>
-    <div class="row no-gutters mt-5 pt-2">
-        <div class="col col-12">
-            <div class="container-fluid">
-                <!-- My Profile Header -->
-                <div class="row no-gutters mt-1 border-bottom border-primary">
-                    <h3 class="mb-0 pb-2">My Timeline</h3>
-                </div>
-                {{!-- Timeline Chart --}}
-                <div class="card bg-light">
-                    <div class="card-body" id="main-timeline">
-                        <h5 class="card-title text-center">Spending Habits Over Time</h5>
-                        {{!-- Connection to charts.js --- Spending by Category Bar
-                        Chart --}}
-                        <canvas id="mainTimeChart" width="200" height="200"></canvas>
+    <!-- main content-->
+    <div class="wrapper">
+        <div class="row no-gutters mt-5 pt-2">
+            <div class="col col-12">
+                <div class="container-fluid">
+                    <!-- My Profile Header -->
+                    <div class="row no-gutters mt-1 border-bottom border-primary">
+                        <h3 class="mb-0 pb-2">My Timeline</h3>
+                    </div>
+                    <br>
+                    {{!-- Timeline Chart --}}
+                    <div class="card bg-light">
+                        <div class="card-body" id="main-timeline">
+                            <h5 class="card-title text-center">Past 30 days history</h5>
+                            {{!-- Connection to charts.js --- Spending by Category BarChart --}}
+                            <canvas id="mainTimeChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="msg">123</div>
                     </div>
                 </div>
                 <!-- My Transfers Header -->
                 <div class="row no-gutters mt-1 border-bottom border-primary">
-                    <h3 class="mb-0 pb-2">My Transfers</h3>
+                    <h3 class="mb-0 pb-2" id="my-transfer"><br>My Transfers</h3>
                 </div>
                 {{!-- Display List Row --}}
                 <div class="row mb-4">
@@ -213,11 +216,11 @@
                 </div>
                 {{!-- My Analytics Header --}}
                 <div class="row no-gutters mt-1 border-bottom border-primary">
-                    <h3 class="mb-0 pb-2">My Analytics</h3>
+                    <h3 class="mb-0 pb-2" id="my-analytic"><br>My Analytics</h3>
                 </div>
                 {{!-- Analytics Filter Bar --}}
                 <div class="row no-gutters pt-3 pb-5">
-                    <div class="col col-3">
+                    <div class="col col-2">
                         <div class="list-group" id="list-tab" role="tablist">
                             <a class="list-group-item list-group-item-action active" id="category-link" data-toggle="list"
                                 href="#category-charts" role="tab" aria-controls="category">Category</a>
@@ -295,13 +298,13 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col col-9">
+                    <div class="col col-10">
                         {{!-- Analytics Display --}}
                         <div class="tab-content" id="nav-tabContent">
                             {{!-- CATEGORY TAB CONTENT --}}
                             <div class="tab-pane fade show active" id="category-charts" role="tabpanel" aria-labelledby="#category-link">
                                 <div class="row no-gutters">
-                                    <div class="col col-8 px-3">
+                                    <div class="col col-9 px-3">
                                         <div class="tab-content" id="nav-tabContent">
                                             <div class="tab-pane fade show active" id="list-doughnut" role="tabpanel">
                                                 <div class="card bg-light">
@@ -339,7 +342,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col col-4">
+                                    <div class="col col-3">
                                         <div class="list-group" id="list-tab" role="tablist">
                                             <a class="list-group-item list-group-item-action active" id="list-dougnut-list"
                                                 data-toggle="list" href="#list-doughnut" role="tab">Doughnut Chart</a>
@@ -406,6 +409,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
