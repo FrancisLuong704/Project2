@@ -40,9 +40,11 @@ module.exports = function(app) {
     }
 
     db.Transaction.findAll({
+      limit: 10,
       where: {
         UserId: userId
-      }
+      },
+      order: [ [ 'date', 'DESC' ]]
     }).then(function (dbTransactionAll) {
       res.render("index", {trans:dbTransactionAll});
     });
