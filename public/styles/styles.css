@@ -2,7 +2,15 @@ input[type="month"]::-webkit-calendar-picker-indicator{
     display: none;
 }
 
-.wrapper {
-    max-width: 80vw;
-    margin:auto;
-}
+/* .bg-image { 
+    /* The image used */
+    background-image: url("./images/login-option1-min.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} */
