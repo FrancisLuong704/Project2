@@ -137,29 +137,36 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   var foodAndGroceriesCount = 0;
   var gasolineCount = 0;
   var vacationCount = 0;
+  var entertainmentTotal = 0;
+  var billsTotal = 0;
+  var personalCareTotal = 0;
+  var miscTotal = 0;
+  var foodAndGroceriesTotal = 0;
+  var gasolineTotal = 0;
+  var vacationTotal = 0;
   var withdrawCount = 0;
   var depositCount = 0;
   for (i = 0; i < result.length; i++) {
     if (result[i].category === "Entertainment") {
-      console.log("Added one to entertainment")
+      entertainmentTotal += parseFloat(result[i].amount);
       entertainmentCount++;
     } else if (result[i].category === "Bills") {
-      console.log("Added one to bills")
+      billsTotal += parseFloat(result[i].amount);
       billsCount++;
     } else if (result[i].category === "Personal Care") {
-      console.log("Added one to personal")
+      personalCareTotal += parseFloat(result[i].amount);
       personalCareCount++;
     } else if (result[i].category === "Food and Groceries") {
-      console.log("Added one to food")
+      foodAndGroceriesTotal += parseFloat(result[i].amount);
       foodAndGroceriesCount++;
     } else if (result[i].category === "Gasoline") {
-      console.log("Added one to gasoline")
+      gasolineTotal += parseFloat(result[i].amount);
       gasolineCount++;
     } else if (result[i].category === "Vacation") {
-      console.log("Added one to vaca")
+      vacationTotal += parseFloat(result[i].amount);
       vacationCount++;
     } else {
-      console.log("Added one to misc")
+      miscTotal += parseFloat(result[i].amount);
       miscCount++;
     }
     if (result[i].type === "Withdraw") {
@@ -172,23 +179,29 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   // ===================================================================
 
   // Spending By Category -- Doughnut Chart
-  var ctx = $("#spendChartDoughnut");
+  var ctx = $("#countPerCategoryDoughnut");
   var spendChartDoughnut = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["Bills", "Personal Care", "Entertainment", "Misc."],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
         label: "Spending Per Category",
-        data: [billsCount, personalCareCount, entertainmentCount, miscCount],
+        data: [billsCount, personalCareCount, entertainmentCount, foodAndGroceriesCount, gasolineCount, vacationCount, miscCount],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160), 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160), 1)'
         ],
         borderWidth: 1
       }]
@@ -198,29 +211,29 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   });
 
   // Spending By Category --- Bar Chart Creation
-  var ctx = $("#spendChartBar");
+  var ctx = $("#countPerCategoryBar");
   var spendChartBar = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ["Bills", "Personal Care", "Entertainment", "Misc."],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
         label: 'Spending Per Category',
-        data: [billsCount, personalCareCount, entertainmentCount, miscCount],
+        data: [billsCount, personalCareCount, entertainmentCount, foodAndGroceriesCount, gasolineCount, vacationCount, miscCount],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160), 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160), 1)'
         ],
         borderWidth: 1
       }]
@@ -230,29 +243,29 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
   });
 
   // Spending By Category --- Pie Chart
-  var ctx = $("#spendChartPie");
+  var ctx = $("#countPerCategoryPie");
   var spendChartPie = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ["Bills", "Personal Care", "Entertainment", "Misc."],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
         label: 'Spending Per Category',
-        data: [billsCount, personalCareCount, entertainmentCount, miscCount],
+        data: [billsCount, personalCareCount, entertainmentCount, foodAndGroceriesCount, gasolineCount, vacationCount, miscCount],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160), 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160), 1)'
         ],
         borderWidth: 1
       }]
@@ -263,24 +276,30 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
 
   // =====================================================================================
 
-  // Withdraw vs Deposit -- Doughnut Chart
-  var ctx = $("#typeChartDoughnut");
-  var typeChartDoughnut = new Chart(ctx, {
+  // Category Totals -- Doughnut Chart
+  var ctx = $("#categoryTotalDoughnut");
+  var categoryTotalDoughnut = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["Withdrawals", "Deposits"],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
         label: "Spending Per Category",
-        data: [withdrawCount, depositCount],
+        data: [billsTotal, personalCareTotal, entertainmentTotal, foodAndGroceriesTotal, gasolineTotal, vacationTotal, miscTotal],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
@@ -289,30 +308,30 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
     }
   });
 
-  // Withdraw vs Deposit --- Bar Chart Creation
-  var ctx = $("#typeChartBar");
-  var typeChartBar = new Chart(ctx, {
+  // Category Totals --- Bar Chart
+  var ctx = $("#categoryTotalBar");
+  var categoryTotalBar = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ["Withdrawals", "Deposits"],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
         label: 'Spending Per Category',
-        data: [withdrawCount, depositCount],
+        data: [billsTotal, personalCareTotal, entertainmentTotal, foodAndGroceriesTotal, gasolineTotal, vacationTotal, miscTotal],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
@@ -321,30 +340,30 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
     }
   });
 
-  // Withdraw vs Deposit --- Pie Chart
-  var ctx = $("#typeChartPie");
-  var typeChartPie = new Chart(ctx, {
+  // Category Totals --- Pie Chart
+  var ctx = $("#categoryTotalPie");
+  var categoryTotalPie = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ["Withdrawals", "Deposits"],
+      labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
-        label: 'Spending Per Category',
-        data: [withdrawCount, depositCount],
+        label: 'Category Totals',
+        data: [billsTotal, personalCareTotal, entertainmentTotal, foodAndGroceriesTotal, gasolineTotal, vacationTotal, miscTotal],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(65, 244, 107, 0.2)',
+          'rgba(244, 157, 65, 0.2)',
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
-          'rgba(255,99,132,1)',
+          'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(65, 244, 107, 1)',
+          'rgba(244, 157, 65, 1)',
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
@@ -587,17 +606,17 @@ $.get("/api/transaction/").then(function (result) {
   }
 
   // Advice
-  if (lrentertain[1]>0){
+  if (lrentertain[1] > 0) {
     $('.msg').append('<li> The spending on "Entertainment" is increasing. Remember: Saving is a good habit.</li>')
   } else {
     $('.msg').append('<li> The spending on "Entertainment" is decreasing. Life needs balance</li>')
   }
-  if (lrbill[1]>0){
+  if (lrbill[1] > 0) {
     $('.msg').append('<li> The spending on "Bills" is increasing. Sorry for being ripped of by Duke Energy.</li>')
   } else {
     $('.msg').append('<li> The spending on "Bills" is decreasing. Good Job!</li>')
   }
-  if (lrpcare[1]>0){
+  if (lrpcare[1] > 0) {
     $('.msg').append('<li> The spending on "Personal Care" is increasing. Money can not buy health but health does cost money!</li>')
   } else {
     $('.msg').append('<li> The spending on "Personal Care" is decreasing. Good Job for taking good care of your body!</li>')
