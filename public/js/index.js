@@ -98,23 +98,22 @@ $(document).on("click", "button.delete", function (event) {
   });
 });
 // ADD FILTER HANDLER
-var filter = "";
 $(".apply-filter-button").on("click", function (event) {
   event.preventDefault();
   if ($(this).attr("data-timeMetric") === "d") {
     var startDay = $("#day-date-start").val().replace(/-/g, "");
     var endDay = $("#day-date-end").val().replace(/-/g, "");
-    filter = "yearmonthday/" + startDay + "/" + endDay;
+    sessionStorage.setItem("filterStorage", "yearmonthday/" + startDay + "/" + endDay)
   } else if ($(this).attr("data-timeMetric") === "m") {
     var startMonth = $("#month-date-start").val().replace(/-/g, "");
     var endMonth = $("#month-date-end").val().replace(/-/g, "");
-    filter = "yearmonth/" + startMonth + "/" + endMonth;
+    sessionStorage.setItem("filterStorage", "yearmonth/" + startMonth + "/" + endMonth)
   } else if ($(this).attr("data-timeMetric") === "y") {
     var startYear = $("#year-date-start").val();
     var endYear = $("#year-date-end").val();
-    alert(startYear + "  " + endYear);
-    filter = "year/" + startYear + "/" + endYear;
+    sessionStorage.setItem("filterStorage", "year/" + startYear + "/" + endYear)
   }
+  location.reload();
 });
 
 // show user name next to logout
@@ -125,7 +124,7 @@ $('#log-user').css("color", "white");
 // ============================================================
 
 // Get Data from Database to use in all charts. Uses filter variable above.
-$.get("/api/transaction/" + filter).then(function (result) {
+$.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(function (result) {
   var entertainmentCount = 0;
   var billsCount = 0;
   var personalCareCount = 0;
