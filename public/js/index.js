@@ -483,7 +483,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
     var ArrayY = [];
     for (var i = 0; i < array.length; i++) {
       if (array[i] !== "null") {
-        ArrayY.push(array[i]);
+        ArrayY.push(parseInt(array[i]));
         ArrayX.push(i);
       }
     }

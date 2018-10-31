@@ -25,7 +25,6 @@ module.exports = function (app) {
     });
   });
 
-
   // Create a new transaction
   app.post("/api/transaction", function (req, res) {
 
@@ -123,9 +122,9 @@ module.exports = function (app) {
   });
   //======================
   //get all transactions by type
-  app.get("/api/transaction/:type", function (req, res) {
-    //set req.body to a var
-    var userTrans = req.body;
+  app.get("/api/transaction/type/:type", function (req, res) {
+    //set type in url to var
+    var type = req.params.type
     //checks for user.id
     if (req.user.id) {
       var userId = req.user.id
@@ -137,7 +136,7 @@ module.exports = function (app) {
     db.Transaction.findAll({
       where: {
         UserId: userId,
-        type: userTrans.type
+        type: type
       }
     }).then(function (dbTransactionType) {
       res.json(dbTransactionType)
@@ -145,9 +144,9 @@ module.exports = function (app) {
   });
 
   //get all transactions by category
-  app.get("/api/transaction/:category", function (req, res) {
-    //set req.body to a var
-    var userTrans = req.body;
+  app.get("/api/transaction/category/:category", function (req, res) {
+    //set category in url to var
+    var category = req.params.category;
     //checks for user.id
     if (req.user.id) {
       var userId = req.user.id
@@ -157,12 +156,14 @@ module.exports = function (app) {
     }
 
     db.Transaction.findAll({
+      limit: 10,
       where: {
         UserId: userId,
-        category: userTrans.category
-      }
+        category: category
+      }, 
+      order: [ [ 'date', 'DESC' ]]
     }).then(function (dbTransactionCat) {
-      res.json(dbTransactionCat)
+      res.render("index", {trans:dbTransactionCat});
     });
   });
 
