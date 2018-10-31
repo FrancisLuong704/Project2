@@ -89,8 +89,10 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/api/transaction/category/Entertainment">Entertainment</a>
                                             <a class="dropdown-item" href="/api/transaction/category/Bills">Bills</a>
-                                            <a class="dropdown-item" href="/api/transaction/category/Personal%20Care">Personal Care</a>
-                                            <a class="dropdown-item" href="/api/transaction/category/Food%20and%20Groceries">Food and Groceries</a>
+                                            <a class="dropdown-item" href="/api/transaction/category/Personal%20Care">Personal
+                                                Care</a>
+                                            <a class="dropdown-item" href="/api/transaction/category/Food%20and%20Groceries">Food
+                                                and Groceries</a>
                                             <a class="dropdown-item" href="/api/transaction/category/Gasoline">Gasoline</a>
                                             <a class="dropdown-item" href="/api/transaction/category/Vacation">Vacation</a>
                                         </div>
@@ -435,4 +437,9 @@
         </div>
     </div>
 </div>
+<script>
+    var jsurl = "https://"+window.location.host + '/js/index.js'
+    console.log(jsurl)
+    $('body').append('<script src=' + jsurl + '><'+'/script>');
+</script>
 <script src="js/index.js"></script>
