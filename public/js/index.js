@@ -59,9 +59,9 @@ $("#submit-button").on("click", function (event) {
 //Update A Transaction
 $(document).on("click", "button.update", function (event) {
   event.preventDefault();
- //grab id from transaction and set to var
+  //grab id from transaction and set to var
   var id = $(this).data("id");
-   //set all the data to a variable ready to swap out
+  //set all the data to a variable ready to swap out
   var updatedData = {
     type: $("select.typeUp" + id)
       .children("option:selected").val(),
@@ -99,16 +99,16 @@ $(document).on("click", "button.delete", function (event) {
 });
 // ADD FILTER HANDLER
 var filter = "";
-$(".apply-filter-button").on("click", function(event){
+$(".apply-filter-button").on("click", function (event) {
   event.preventDefault();
   if ($(this).attr("data-timeMetric") === "d") {
     var startDay = $("#day-date-start").val().replace(/-/g, "");
     var endDay = $("#day-date-end").val().replace(/-/g, "");
-    filter = "yearmonthday/"+ startDay + "/" + endDay;
+    filter = "yearmonthday/" + startDay + "/" + endDay;
   } else if ($(this).attr("data-timeMetric") === "m") {
     var startMonth = $("#month-date-start").val().replace(/-/g, "");
     var endMonth = $("#month-date-end").val().replace(/-/g, "");
-    filter = "yearmonth/"+ startMonth + "/" + endMonth;
+    filter = "yearmonth/" + startMonth + "/" + endMonth;
   } else if ($(this).attr("data-timeMetric") === "y") {
     var startYear = $("#year-date-start").val();
     var endYear = $("#year-date-end").val();
@@ -121,7 +121,7 @@ $(".apply-filter-button").on("click", function(event){
 // ============================================================
 
 // Get Data from Database to use in all charts. Uses filter variable above.
-$.get("/api/transaction/" + filter).then(function(result) {
+$.get("/api/transaction/" + filter).then(function (result) {
   var entertainmentCount = 0;
   var billsCount = 0;
   var personalCareCount = 0;
@@ -237,100 +237,133 @@ $.get("/api/transaction/" + filter).then(function(result) {
     }
   });
 
-// =====================================================================================
+  // =====================================================================================
 
-    // Withdraw vs Deposit -- Doughnut Chart
-    var ctx = $("#typeChartDoughnut");
-    var typeChartDoughnut = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Withdrawals", "Deposits"],
-        datasets: [{
-          label: "Spending Per Category",
-          data: [withdrawCount, depositCount],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-      }
-    });
-  
-    // Withdraw vs Deposit --- Bar Chart Creation
-    var ctx = $("#typeChartBar");
-    var typeChartBar = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ["Withdrawals", "Deposits"],
-        datasets: [{
-          label: 'Spending Per Category',
-          data: [withdrawCount, depositCount],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-      }
-    });
-  
-    // Withdraw vs Deposit --- Pie Chart
-    var ctx = $("#typeChartPie");
-    var typeChartPie = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ["Withdrawals", "Deposits"],
-        datasets: [{
-          label: 'Spending Per Category',
-          data: [withdrawCount, depositCount],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-      }
-    });
-    
+  // Withdraw vs Deposit -- Doughnut Chart
+  var ctx = $("#typeChartDoughnut");
+  var typeChartDoughnut = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Withdrawals", "Deposits"],
+      datasets: [{
+        label: "Spending Per Category",
+        data: [withdrawCount, depositCount],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+    }
+  });
+
+  // Withdraw vs Deposit --- Bar Chart Creation
+  var ctx = $("#typeChartBar");
+  var typeChartBar = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Withdrawals", "Deposits"],
+      datasets: [{
+        label: 'Spending Per Category',
+        data: [withdrawCount, depositCount],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+    }
+  });
+
+  // Withdraw vs Deposit --- Pie Chart
+  var ctx = $("#typeChartPie");
+  var typeChartPie = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ["Withdrawals", "Deposits"],
+      datasets: [{
+        label: 'Spending Per Category',
+        data: [withdrawCount, depositCount],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+    }
+  });
+
   //TIME LINE CHART
-  // ====================================================================
+  $.get("/api/transaction/timeline/20181030/Withdraw", function(data) {
+    console.log(data);
+  });
 
   // ====================================================================
+  // Withdraw vs Deposit --- Main Time Chart
+  var ctx = $("#mainTimeChart");
+  var mainTimeChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["days"],
+      datasets: [{
+        label: 'Spending Month by Month',
+        data: [5, 4, 1, 4],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+    }
+  });
 });

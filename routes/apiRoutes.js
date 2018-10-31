@@ -25,6 +25,31 @@ module.exports = function (app) {
     });
   });
 
+  app.get("/api/transaction/timeline/:data/:category", function (req, res) {
+    console.log(req.params.date);
+    console.log(req.params.category);
+    //if the user just registered the req.user.user_id wont be set
+    //will be null in the table  
+    if (req.user.id) {
+      var userId = req.user.id
+    } else {
+      //else look for the id in the req.session.passport.user
+      var userId = req.session.passport.user.id
+    }
+    db.Transaction.findAll({
+      where: {
+        UserId: userId,
+        date: req.params.date,
+        category: req.params.category
+      }
+      // }, include: [db.User]
+    }
+    ).then(function (result) {
+      console.log("\n\n\n" + result + "\n\n\n");
+      res.json(dbTransactionAll);
+    });
+});
+
 
   // Create a new transaction
   app.post("/api/transaction", function (req, res) {
