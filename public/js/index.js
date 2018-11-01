@@ -87,7 +87,7 @@ $(document).on("click", "button.update", function (event) {
   });
 });
 //Delete A Transaction
-$(document).on("click", "button.delete", function (event) {
+$(document).on("click", "i.delete", function (event) {
   event.preventDefault();
   var id = $(this).data("id");
   $.ajax({
@@ -193,7 +193,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 0.2)',
           'rgba(65, 244, 107, 0.2)',
           'rgba(244, 157, 65, 0.2)',
-          'rgba(244, 65, 160), 0.2)'
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -201,7 +201,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 1)',
           'rgba(65, 244, 107, 1)',
           'rgba(244, 157, 65, 1)',
-          'rgba(244, 65, 160), 1)'
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
@@ -217,7 +217,6 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
     data: {
       labels: ["Bills", "Personal Care", "Entertainment", "Food & Groceries", "Gasoline", "Vacation", "Misc."],
       datasets: [{
-        label: 'Spending Per Category',
         data: [billsCount, personalCareCount, entertainmentCount, foodAndGroceriesCount, gasolineCount, vacationCount, miscCount],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -225,7 +224,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 0.2)',
           'rgba(65, 244, 107, 0.2)',
           'rgba(244, 157, 65, 0.2)',
-          'rgba(244, 65, 160), 0.2)'
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -233,12 +232,15 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 1)',
           'rgba(65, 244, 107, 1)',
           'rgba(244, 157, 65, 1)',
-          'rgba(244, 65, 160), 1)'
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
     },
     options: {
+      legend: {
+        display: false
+      }
     }
   });
 
@@ -257,7 +259,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 0.2)',
           'rgba(65, 244, 107, 0.2)',
           'rgba(244, 157, 65, 0.2)',
-          'rgba(244, 65, 160), 0.2)'
+          'rgba(244, 65, 160, 0.2)'
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -265,7 +267,7 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
           'rgba(255, 206, 86, 1)',
           'rgba(65, 244, 107, 1)',
           'rgba(244, 157, 65, 1)',
-          'rgba(244, 65, 160), 1)'
+          'rgba(244, 65, 160, 1)'
         ],
         borderWidth: 1
       }]
@@ -337,6 +339,9 @@ $.get("/api/transaction/" + sessionStorage.getItem("filterStorage")).then(functi
       }]
     },
     options: {
+      legend: {
+        display: false
+      }
     }
   });
 
@@ -488,6 +493,7 @@ $.get("/api/transaction/").then(function (result) {
       ]
     },
     options: {
+      spanGaps: true,
       responsive: true,
       title: {
         display: true,
