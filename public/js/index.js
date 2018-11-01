@@ -87,7 +87,7 @@ $(document).on("click", "button.update", function (event) {
   });
 });
 //Delete A Transaction
-$(document).on("click", "button.delete", function (event) {
+$(document).on("click", "i.delete", function (event) {
   event.preventDefault();
   var id = $(this).data("id");
   $.ajax({
